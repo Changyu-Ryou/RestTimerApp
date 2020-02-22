@@ -1,2 +1,53 @@
-# restTimerApp
-[App] 화면 on/off에 반응하는 타이머 앱
+# RestTimerApp for Android
+> [App] 화면 on/off에 반응하는 타이머 앱
+
+  <br/><br/>
+## ✨ summary
+스마트폰 화면의 ON/ OFF를 감지해 화면이 켜진 이후로부터 타이머가 작동되고, 타이머가 끝났을때 타임아웃 알림과 함께 화면을 OFF 하는 타이머입니다.
+  <br/><br/>
+## 📖 Introduction  
+헬스나 운동 혹은 공부 중 일정 시간의 쉬는시간을 가질 때 대부분 핸드폰을 켜게되는데, 핸드폰을 사용하다 보면 생각치도 못하게 정한 쉬는시간을 넘어 핸드폰을 이용하게 되는 경우가 많습니다. 그런 일을 막고 정해진 시간을 쉬었다는것을 알려주기 위해 어플을 개발할 것입니다. 이번에는 Bottom Navigation을 이용하기 위한 Fragment를 사용했습니다.
+  <br/><br/>
+## 👨‍💻 System requirements
+기본적으로 Android Studio에서 JAVA언어 기반으로 개발을 진행합니다.  
+이를위해 Android Studio 설치가 필수적입니다.  
+또한 안드로이드 SDK Android 8.1 오레오 API Level 27 을 타겟으로 개발합니다.
+  <br/><br/>
+## 📝 Todo list
+제작할 코드와 문서들입니다.
+
+- [x] [💻] 메인 액티비티에 Bottom Navigation 구현
+- [x] [💻] 타이머 Fragment
+- [x] [💻] 오버레이 위젯 셋팅 Fragment
+- [x] [💻] 시작, 중지 버튼 구현
+- [x] [💻] 타이머 셋팅 버튼
+- [x] [💻] 위젯 구현
+- [x] [📗] 핸들러를 통한 타이머 구현
+- [ ] [📗] 화면 ON/OFF 감지
+- [ ] [📗] 타임아웃 이벤트 구현
+- [x] [🔨] 오버레이 위젯 구현 
+- [x] [🔨] 오버레이 위젯 자유이동 (완료 ver 1.0)
+- [x] [🔨] 오버레이 위젯 크기조절 SeekBar (완료 ver 1.0)
+- [x] [🔨] 오버레이 위젯 배경색 변경 기능 (완료 ver 1.0)
+- [X] [🔨] 오버레이 롱 클릭, 더블 클릭시 앱으로 이동 (완료 ver 1.0)
+- [X] [🔨] 타이머 Fragment 내 google AdMob 배너 광고 삽입 (완료 ver 1.0)
+- [X] [🔨] 셋팅 Fragment 내 google AdMob 배너 광고 삽입 (완료 ver 1.0)
+- [ ] [🔨] 사용자 가이드 팝업 액티비티 추가
+- [ ] [🔨] 오버레이 뷰 디자인 
+- [ ] [🔨] 앱 전체적인 디자인 
+- [ ] [🔨] 로고 제작 
+- [ ] [🔓] Play Store 출시 
+
+  <br/> <br/>
+  
+## ☁️ Screen Shot
+  
+> ### ver 1.0 ( commit 2020-02-14 )  
+메인 액티비티 구성 및 타이머 기능, 위젯 구현<br/>
+위젯 기능은 이전 project였던 ServerTime의 소스를 재사용해 구현하였습니다.<br/>
+<img src="https://user-images.githubusercontent.com/56837413/75100771-b178b000-5615-11ea-9112-388b28832395.jpg" width="30%"></img> 
+<img src="https://user-images.githubusercontent.com/56837413/75100770-b0478300-5615-11ea-85c5-709c942a9f41.jpg" width="30%"></img>
+  
+  <br/>
+  <br/>
+  <br/>
