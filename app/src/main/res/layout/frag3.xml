@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:id="@+id/WidSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginLeft="20dp"
+        android:text="Widget Size"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@id/WidSize"
+        android:thumb="@drawable/ic_fiber_manual_record_black_24dp"
+        android:layout_marginRight="39dp"
+        android:layout_marginLeft="39dp"
+        android:max="10"
+        android:progress="0" />
+
+
+
+
+    <TextView
+        android:id="@+id/ColorPick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekBar"
+        android:text="Select Color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginLeft="20dp"/>
+
+    <ImageView
+        android:id="@+id/Color_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ColorPick"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/myshape_white" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:spinnerMode="dialog"
+        android:layout_width="match_parent"
+        android:background="@drawable/spinner_background"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="50dp"
+        android:layout_below="@id/ColorPick"
+        android:layout_toRightOf="@id/Color_image" />
+
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+
+</RelativeLayout>

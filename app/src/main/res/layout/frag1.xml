@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="70dp"
+        android:text="Rest Timer"
+        android:textStyle="bold"
+        android:textSize="50dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:text="Min."
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/Min_Text"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/Min_Text"
+            android:text="Sec."
+            android:gravity="center_horizontal"
+            android:id="@+id/Sec_Text"/>
+
+        <Button
+            android:id="@+id/up_min"
+            android:layout_below="@id/Min_Text"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/up_sec"
+            android:layout_toRightOf="@id/up_min"
+            android:layout_below="@id/Sec_Text"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="+" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:text="00"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal|center_vertical"
+            android:id="@+id/min"
+            android:layout_below="@id/up_min"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:text="00"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal|center_vertical"
+            android:id="@+id/sec"
+            android:layout_below="@id/up_min"
+            android:layout_toRightOf="@id/min"/>
+
+
+        <Button
+            android:id="@+id/down_min"
+            android:layout_below="@id/min"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/down_sec"
+            android:layout_below="@id/min"
+            android:layout_toRightOf="@id/down_min"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="-" />
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/startBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:background="#016A96"
+            android:paddingHorizontal="20dp"
+            android:textColor="#ffffff"
+            android:text="START"
+            android:textStyle="normal"
+            android:textSize="30dp" />
+
+        <Button
+            android:id="@+id/stopBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/startBtn"
+            android:background="#ED636D"
+            android:paddingHorizontal="20dp"
+            android:textColor="#ffffff"
+            android:text="STOP"
+            android:textStyle="normal"
+            android:textSize="30dp" />
+
+    </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+</RelativeLayout>
+</LinearLayout>

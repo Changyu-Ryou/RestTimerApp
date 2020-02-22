@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_timer"
+        android:enabled="true"
+        android:icon="@drawable/ic_access_time_white_24dp"
+        android:title="Timer"/>
+<!--
+    <item
+        android:id="@+id/action_saved"
+        android:enabled="true"
+        android:icon="@drawable/ic_save_black_24dp"
+        android:title="Saved"/>
+        -->
+
+    <item
+        android:id="@+id/action_setting"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Setting"/>
+
+</menu>
