@@ -1,14 +1,20 @@
 package com.example.resttimer;
 
 
+import android.app.Activity;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,16 +41,30 @@ public class MyService extends Service {
     static WindowManager.LayoutParams params;
     static TextView tView;
     static int widFlag = 3;     //위젯 백그라운드 작동 ( 0=실행 , 1=중지, 초기설정 = 3 )
+    static int screenFlag = 1;      //위젯 백그라운드 작동 ( 0=실행 , 1=중지 )
 
-    static int min=0;
-    static int sec=0;
+    static int ori_min = 0;       //변하지 않는 분
+    static int ori_sec = 0;   //변하지 않는 초
 
-    static int progress=0;      //위젯 크기 설정 변수
-    static int selColor=0;      //위젯 색상 설정 변수
+    static int min = 0;
+    static int sec = 0;
+
+    static int progress = 0;      //위젯 크기 설정 변수
+    static int selColor = 0;      //위젯 색상 설정 변수
 
     static TextView mtime;
+    IntentFilter intentFilter;
+
+    static PowerManager manager;                //화면 on off check
+    static PowerManager.WakeLock wl;            //화면 on off check
 
 
+    private static final int SCREEN_OFF_TIME_OUT = 1000;         //화면 종료 대기 시간
+    public static int mSystemScreenOffTimeOut;             //원래 설정값
+
+
+    private static Context context;
+    static int screenCheck = 3;//위젯 백그라운드 작동 ( 0=실행 , 1=중지, 초기설정 = 3 )
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -55,10 +75,20 @@ public class MyService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        context = this;
+
+        ori_min = MainActivity.min;
+        ori_sec = MainActivity.sec;
+
         min = MainActivity.min;
         sec = MainActivity.sec;
 
-
+        try {
+            mSystemScreenOffTimeOut = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT);     //원래 스크린 자동off 설정 시간가져오기
+        } catch (Settings.SettingNotFoundException e) {
+            System.out.println("가져오지 못함");
+            e.printStackTrace();
+        }
 
         LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         wm = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -78,87 +108,174 @@ public class MyService extends Service {
         wm.addView(mView, params);
 
 
-        mtime= (TextView) mView.findViewById(R.id.textView);
+        //on off 확인
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+
+
+        mtime = (TextView) mView.findViewById(R.id.textView);
         //뷰 터치 리스너
         tView = (TextView) mView.findViewById(R.id.textView);
 
-        final View view = (View) mView.findViewById(R.id.view);
+      //  final View view = (View) mView.findViewById(R.id.view);
 
         //view.setLayoutParams(new RelativeLayout.LayoutParams(tView.getWidth() + 20, tView.getHeight() + 5));
 
-        view.setOnLongClickListener(mViewLongClickListener);
-        view.setOnClickListener(mViewClickListener);
-        view.setOnTouchListener(mViewTouchListener);
+        mView.setOnLongClickListener(mViewLongClickListener);
+        mView.setOnClickListener(mViewClickListener);
+        mView.setOnTouchListener(mViewTouchListener);
 
-        mHandler.sendEmptyMessage(1);
+        manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wl = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "resttimer:WAKELOCK");
+
+        screenCheck = 0;
+        mHandler.sendEmptyMessage(0);
 
     }
 
-    public static void startWidget(Context context) {
-        widFlag = 0;
 
-        MainContext = context;
+    public static boolean checkScreen(Context context) {                //화면 on off check
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn();
+
+        return isScreenOn;
+
+    }
+
+    private static void setScreenOffTimeOut() {                 //time out을 1초로
         try {
-            mHandler.sendEmptyMessageDelayed(0, 100);
+            mSystemScreenOffTimeOut = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT);
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, SCREEN_OFF_TIME_OUT);
         } catch (Exception e) {
-            System.out.println("waitLoading() 오류");
+            //Utils.handleException(e);
         }
-
     }
 
+    public static void restoreScreenOffTimeOut() {           //time out을 원래 유저 셋팅값으로
+        if (mSystemScreenOffTimeOut == 0) return;
+        try {
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, mSystemScreenOffTimeOut);
+            System.out.println("restoreScreenOffTimeOut() = "+mSystemScreenOffTimeOut);
+        } catch (Exception e) {
+            //Utils.handleException(e);
+            System.out.println("restoreScreenOffTimeOut() 오류");
+        }
+    }
 
-
-    static Handler mHandler = new Handler() {
+    static Handler mHandler = new Handler() {                   //타이머 핸들러
         public void handleMessage(Message msg) {
             if (widFlag == 1) {
                 mHandler.removeMessages(0);         //핸들러 종료
             }
-            String mins ="";
-            String secs="";
+            restoreScreenOffTimeOut();
+            String mins = "";
+            String secs = "";
 
-            if(min<10){
-                mins="0"+min;
-            }else
-                mins=min+"";
-            if(sec<10){
-                secs="0"+sec;
-            }else
-                secs=sec+"";
+            if (min < 10) {
+                mins = "0" + min;
+            } else
+                mins = min + "";
+            if (sec < 10) {
+                secs = "0" + sec;
+            } else
+                secs = sec + "";
 
-            String timeset=mins+" : "+secs;
+            String timeset = mins + " : " + secs;
             mtime.setText(timeset);
 
-            if(sec<=0){
-                if(min<=0){
+            if (sec <= 0) {
+                if (min <= 0) {
+                    mView.setLayoutParams(new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    mtime.setText("Time Out\nGo back to work out!");
+                    mView.setBackgroundResource(R.color.White);
+
+                    System.out.println("Time out");
+
+                    //MainActivity.wl.acquire();
+                    //MainActivity.wl.release();
+                    if(screenFlag==0)
+                        setScreenOffTimeOut();
                     mHandler.removeMessages(0);
+
+                    //return;
                     //종료 시간!
-                }else{
+                } else {
                     min--;
-                    sec=59;
+                    sec = 59;
                 }
-            }else{
+            } else {
                 sec--;
+            }
+
+            if (!checkScreen(context)) {
+                min = ori_min;
+                sec = ori_sec;
+                mScreenHandler.sendEmptyMessage(0);
+
+            } else {
+                // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
+                mHandler.sendEmptyMessageDelayed(0, 1000);
             }
 
             System.out.println("위젯 스레드 작동중");
 
 
-            // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
-            mHandler.sendEmptyMessageDelayed(0, 1000);
         }
     };
 
-    public static void stopWidget() {
-        widFlag = 1;
-        mHandler.removeMessages(0);
-    }
+    static Handler colorHandler1 = new Handler() {                  //화면 off시 screen on check 핸들러
+        public void handleMessage(Message msg) {
+            mView.setBackgroundResource(R.color.White);
+                colorHandler2.sendEmptyMessageDelayed(1,700);
+        }
+    };
+    static Handler colorHandler2 = new Handler() {                  //화면 off시 screen on check 핸들러
+        public void handleMessage(Message msg) {
+            mView.setBackgroundResource(R.color.Black);
+            colorHandler3.sendEmptyMessageDelayed(1,700);
+        }
+    };
+    static Handler colorHandler3 = new Handler() {                  //화면 off시 screen on check 핸들러
+        public void handleMessage(Message msg) {
+            mView.setBackgroundResource(R.color.Blue);
+            colorHandler4.sendEmptyMessageDelayed(1,700);
+        }
+    };
+    static Handler colorHandler4 = new Handler() {                  //화면 off시 screen on check 핸들러
+        public void handleMessage(Message msg) {
+            mView.setBackgroundResource(R.color.Pink);
+            colorHandler5.sendEmptyMessageDelayed(1,700);
+        }
+    };
+    static Handler colorHandler5 = new Handler() {                  //화면 off시 screen on check 핸들러
+        public void handleMessage(Message msg) {
+            mView.setBackgroundResource(R.color.Red);
+        }
+    };
+
+
+    static Handler mScreenHandler = new Handler() {                  //화면 off시 screen on check 핸들러
+        public void handleMessage(Message msg) {
+            if (checkScreen(context)) {
+                System.out.println("screen check1");
+                mHandler.sendEmptyMessage(0);
+                restoreScreenOffTimeOut();
+            }else{
+                System.out.println("screen check2");
+                mScreenHandler.sendEmptyMessageDelayed(0, 300);
+            }
+
+        }
+    };
 
 
     private View.OnLongClickListener mViewLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
             Toast.makeText(MyService.this, "Openning Rest Timer\nPlease, Wait a seconds",
-                   Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
+            restoreScreenOffTimeOut();
             Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.resttimer");
 
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -174,18 +291,23 @@ public class MyService extends Service {
     private View.OnClickListener mViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (System.currentTimeMillis() > btnPressTime + 1000) {
-                btnPressTime = System.currentTimeMillis();
-                return;
-            }
-            if (System.currentTimeMillis() <= btnPressTime + 1000) {    //서비스 시작
-                Toast.makeText(MyService.this, "Openning Rest Timer\nPlease, Wait a seconds",
-                        Toast.LENGTH_SHORT).show();
+            min = ori_min;
+            sec = ori_sec;
 
-                Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.resttimer");
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
+            String mins="";
+            String secs ="";
+
+            if (min < 10) {
+                mins = "0" + min;
+            } else
+                mins = min + "";
+            if (sec < 10) {
+                secs = "0" + sec;
+            } else
+                secs = sec + "";
+
+            String timeset = mins + " : " + secs;
+            mtime.setText(timeset);
         }
 
     };
@@ -235,8 +357,6 @@ public class MyService extends Service {
         if (params.x < 0) params.x = 0;
         if (params.y < 0) params.y = 0;
     }
-
-
 
     //종료
     @Override

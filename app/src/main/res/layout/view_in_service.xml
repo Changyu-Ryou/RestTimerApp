@@ -5,11 +5,6 @@
     android:id="@+id/mPopView"
     android:background="#E9E6DD">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="130dp"
-        android:layout_height="30dp">
-    </View>
 
         <TextView
             android:id="@+id/textView"

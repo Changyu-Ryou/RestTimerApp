@@ -1,34 +1,26 @@
 package com.example.resttimer;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import static com.example.resttimer.R.layout.support_simple_spinner_dropdown_item;
 
@@ -44,8 +36,8 @@ public class Frag3_Setting extends Fragment {
 
     private View widview;
     Spinner spinner;
-    Spinner TimeSpinner;
     RelativeLayout mpopView;
+    Switch screenoffSwitch;
 
     int progresses = 0;
     int selColor = 0;
@@ -61,9 +53,10 @@ public class Frag3_Setting extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        //mpopView = (RelativeLayout) MyService.mView.findViewById(R.id.mPopView);
+
         view = inflater.inflate(R.layout.frag3,container,false);
         widSize = (TextView) view.findViewById(R.id.WidSize);
+        screenoffSwitch= view.findViewById(R.id.switch1);
         // admob
         MobileAds.initialize(getContext(), "ca-app-pub-3940256099942544~3347511713");
 
@@ -74,47 +67,40 @@ public class Frag3_Setting extends Fragment {
 
         PopView = (TextView) MyService.mView.findViewById(R.id.textView); //오버레이
 
-        SeekBar sb  = (SeekBar) view.findViewById(R.id.seekBar);
+        final SeekBar sb  = (SeekBar) view.findViewById(R.id.seekBar);
 
         //sb.setProgress(5);
         widSize.setText("위젯 크기 : "+sb.getProgress());
-        widview = (View) MyService.mView.findViewById(R.id.view);
-/*
-        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                widSize.setText("위젯 크기 : "+seekBar.getProgress());
-                PopView.setTextSize(24 + progress);
-                MyService.progress = progresses;
-                //mpopView.setLayoutParams(new WindowManager.LayoutParams(PopView.getWidth() + 5, PopView.getHeight()));
-                widview.setLayoutParams(new RelativeLayout.LayoutParams(PopView.getWidth() + 20, PopView.getHeight() + 5));
-            }
-
-            public void onStartTrackingTouch(SeekBar arg0) {
-            }
-
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-*/
-
-
+        widview = (View) MyService.mView.findViewById(R.id.mPopView);
 
         if (MyService.selColor == 0 && MyService.progress == 0) {          //셋팅 없이 초기값인 경우
 
             sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    MyService.progress = progresses;
-                    mpopView.setLayoutParams(new WindowManager.LayoutParams(PopView.getWidth() + 5, PopView.getHeight()));
-                    widview.setLayoutParams(new RelativeLayout.LayoutParams(PopView.getWidth() + 20, PopView.getHeight() + 5));
+                    //System.out.println("stop");
+                    //MyService.progress = progresses;
+                    //mpopView.setLayoutParams(new WindowManager.LayoutParams(PopView.getWidth() + 20, PopView.getHeight()+5));
+                    //widview.setLayoutParams(new RelativeLayout.LayoutParams(PopView.getWidth() + 20, PopView.getHeight() + 5));
                 }
 
                 public void onStartTrackingTouch(SeekBar seekBar) {
+                    int progress=sb.getProgress();
+                    System.out.println("start");
+                    widSize.setText("위젯 크기 : " + progress);
 
+                    ViewGroup.LayoutParams wid = widview.getLayoutParams();
+                    mpopView = (RelativeLayout) MyService.mView.findViewById(R.id.mPopView);
+
+                    PopView = (TextView) MyService.mView.findViewById(R.id.textView); //오버레이
+                    PopView.setTextSize(24 + progress);
+
+                    mpopView.setLayoutParams(new WindowManager.LayoutParams(PopView.getWidth() + 20, PopView.getHeight()+5));
+                    widview.setLayoutParams(new RelativeLayout.LayoutParams(PopView.getWidth() + 20, PopView.getHeight() + 5));
                 }
 
                 public void onProgressChanged(SeekBar seekBar, int progress,
                                               boolean fromUser) {
+                    System.out.println("onchange");
                     widSize.setText("위젯 크기 : " + progress);
                     progresses = progress;
 
@@ -124,7 +110,7 @@ public class Frag3_Setting extends Fragment {
                     PopView = (TextView) MyService.mView.findViewById(R.id.textView); //오버레이
                     PopView.setTextSize(24 + progress);
 
-                    mpopView.setLayoutParams(new WindowManager.LayoutParams(PopView.getWidth() + 5, PopView.getHeight()));
+                    mpopView.setLayoutParams(new WindowManager.LayoutParams(PopView.getWidth() + 20, PopView.getHeight()+5));
                     widview.setLayoutParams(new RelativeLayout.LayoutParams(PopView.getWidth() + 20, PopView.getHeight() + 5));
                 }
             });
@@ -152,7 +138,7 @@ public class Frag3_Setting extends Fragment {
                     widSize.setText("위젯 크기 : " + progress);
                     progresses = progress;
                     MyService.progress = progress;
-                    widview = (View) MyService.mView.findViewById(R.id.view);
+                    widview = (View) MyService.mView.findViewById(R.id.mPopView);
                     ViewGroup.LayoutParams wid = widview.getLayoutParams();
                     mpopView = (RelativeLayout) MyService.mView.findViewById(R.id.mPopView);
 
@@ -244,12 +230,27 @@ public class Frag3_Setting extends Fragment {
         });
 
 
+        screenoffSwitch.setOnCheckedChangeListener(new screenoffSwitchListener());
+
+
 
 
 
 
         return view;
     }
+
+    class screenoffSwitchListener implements CompoundButton.OnCheckedChangeListener{
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked)
+                MyService.screenFlag=0;
+            else
+                MyService.screenFlag=1;
+        }
+    }
+
+
 }
 
 

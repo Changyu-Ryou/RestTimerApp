@@ -31,6 +31,8 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
     private AdView mAdView;
     private View view;
     private onButtonClickListener mListener;
+    TextView min;
+    TextView sec;
 
     public void setOnButtonClickListener(onButtonClickListener listener) {
         mListener = listener;
@@ -64,8 +66,8 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
         Button downsec = (Button) View.findViewById(R.id.down_sec);
 
 
-        final TextView min = (TextView) View.findViewById(R.id.min);
-        final TextView sec = (TextView) View.findViewById(R.id.sec);
+        min = (TextView) View.findViewById(R.id.min);
+        sec = (TextView) View.findViewById(R.id.sec);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +161,14 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
 
 
         return View;
+
+    }
+
+    public void onResume() {
+
+        super.onResume();
+        min.setText(addZero(minute));
+        sec.setText(addZero(second));
 
     }
 

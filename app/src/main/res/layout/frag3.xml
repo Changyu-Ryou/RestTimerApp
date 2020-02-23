@@ -67,6 +67,35 @@
         android:layout_toRightOf="@id/Color_image" />
 
 
+    <TextView
+        android:id="@+id/screenoff"
+        android:layout_below="@id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginLeft="20dp"
+        android:text="Auto Screen off"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:switchPadding="30dp"
+        android:switchMinWidth="40dp"
+        android:textOn="On"
+        android:textOff="Off"
+        android:layout_below="@id/spinner"
+        android:layout_toRightOf="@id/screenoff"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginLeft="80dp" />
+
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
