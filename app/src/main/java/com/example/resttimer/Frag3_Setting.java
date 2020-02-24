@@ -86,7 +86,7 @@ public class Frag3_Setting extends Fragment {
                 public void onStartTrackingTouch(SeekBar seekBar) {
                     int progress=sb.getProgress();
                     System.out.println("start");
-                    widSize.setText("위젯 크기 : " + progress);
+                    widSize.setText("Widget Size : " + progress);
 
                     ViewGroup.LayoutParams wid = widview.getLayoutParams();
                     mpopView = (RelativeLayout) MyService.mView.findViewById(R.id.mPopView);
@@ -183,7 +183,7 @@ public class Frag3_Setting extends Fragment {
                                 getResources().getDrawable(R.drawable.myshape_white)
                         );
                         Toast.makeText(getActivity(), "selected White", Toast.LENGTH_SHORT).show();
-                        widview.setBackgroundResource(R.color.White);
+                        widview.setBackgroundResource(R.drawable.view_service_white);
                         break;
                     }
                     case 1: {
@@ -191,7 +191,7 @@ public class Frag3_Setting extends Fragment {
                                 getResources().getDrawable(R.drawable.myshape_black)
                         );
 
-                        widview.setBackgroundResource(R.color.Black);
+                        widview.setBackgroundResource(R.drawable.view_service_black);
                         Toast.makeText(getActivity(), "selected Black", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -200,7 +200,7 @@ public class Frag3_Setting extends Fragment {
                                 getResources().getDrawable(R.drawable.myshape_red)
                         );
                         Toast.makeText(getActivity(), "selected Red", Toast.LENGTH_SHORT).show();
-                        widview.setBackgroundResource(R.color.Red);
+                        widview.setBackgroundResource(R.drawable.view_service_red);
                         break;
                     }
                     case 3: {
@@ -208,7 +208,7 @@ public class Frag3_Setting extends Fragment {
                                 getResources().getDrawable(R.drawable.myshape_blue)
                         );
                         Toast.makeText(getActivity(), "selected Blue", Toast.LENGTH_SHORT).show();
-                        widview.setBackgroundResource(R.color.Blue);
+                        widview.setBackgroundResource(R.drawable.view_service_blue);
                         break;
                     }
                     case 4: {
@@ -216,7 +216,7 @@ public class Frag3_Setting extends Fragment {
                                 getResources().getDrawable(R.drawable.myshape_pink)
                         );
                         Toast.makeText(getActivity(), "selected Pink", Toast.LENGTH_SHORT).show();
-                        widview.setBackgroundResource(R.color.Pink);
+                        widview.setBackgroundResource(R.drawable.view_service_pink);
                         break;
                     }
                 }

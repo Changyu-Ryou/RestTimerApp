@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,8 +26,8 @@ import com.google.android.gms.ads.MobileAds;
 
 public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아야한다
 {
-    int minute;
-    int second;
+    static int minute;
+    static int second;
 
     private AdView mAdView;
     private View view;
@@ -65,6 +66,9 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
         Button downmin = (Button) View.findViewById(R.id.down_min);
         Button downsec = (Button) View.findViewById(R.id.down_sec);
 
+        ImageView info = (ImageView) View.findViewById(R.id.info_btn);
+
+
 
         min = (TextView) View.findViewById(R.id.min);
         sec = (TextView) View.findViewById(R.id.sec);
@@ -84,6 +88,13 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
             }
         });
 
+        info.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mListener.onButtonClick(3);
+
+            }
+        });
 
 
         upmin.setOnClickListener(new View.OnClickListener() {

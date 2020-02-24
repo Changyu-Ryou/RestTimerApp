@@ -132,6 +132,8 @@ public class MyService extends Service {
         screenCheck = 0;
         mHandler.sendEmptyMessage(0);
 
+
+
     }
 
 
@@ -187,8 +189,9 @@ public class MyService extends Service {
             if (sec <= 0) {
                 if (min <= 0) {
                     mView.setLayoutParams(new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    mtime.setText("Time Out\nGo back to work out!");
-                    mView.setBackgroundResource(R.color.White);
+                    mtime.setText("Time Out\nGo back to work!!!");
+                    //mView.getBackground();
+                    mView.setBackground(mView.getBackground());
 
                     System.out.println("Time out");
 
@@ -221,36 +224,6 @@ public class MyService extends Service {
             System.out.println("위젯 스레드 작동중");
 
 
-        }
-    };
-
-    static Handler colorHandler1 = new Handler() {                  //화면 off시 screen on check 핸들러
-        public void handleMessage(Message msg) {
-            mView.setBackgroundResource(R.color.White);
-                colorHandler2.sendEmptyMessageDelayed(1,700);
-        }
-    };
-    static Handler colorHandler2 = new Handler() {                  //화면 off시 screen on check 핸들러
-        public void handleMessage(Message msg) {
-            mView.setBackgroundResource(R.color.Black);
-            colorHandler3.sendEmptyMessageDelayed(1,700);
-        }
-    };
-    static Handler colorHandler3 = new Handler() {                  //화면 off시 screen on check 핸들러
-        public void handleMessage(Message msg) {
-            mView.setBackgroundResource(R.color.Blue);
-            colorHandler4.sendEmptyMessageDelayed(1,700);
-        }
-    };
-    static Handler colorHandler4 = new Handler() {                  //화면 off시 screen on check 핸들러
-        public void handleMessage(Message msg) {
-            mView.setBackgroundResource(R.color.Pink);
-            colorHandler5.sendEmptyMessageDelayed(1,700);
-        }
-    };
-    static Handler colorHandler5 = new Handler() {                  //화면 off시 screen on check 핸들러
-        public void handleMessage(Message msg) {
-            mView.setBackgroundResource(R.color.Red);
         }
     };
 

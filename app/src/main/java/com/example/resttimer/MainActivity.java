@@ -17,11 +17,17 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static com.example.resttimer.MyService.mSystemScreenOffTimeOut;
+import static com.example.resttimer.MyService.ori_min;
+import static com.example.resttimer.MyService.ori_sec;
 
 public class MainActivity extends AppCompatActivity implements Frag1_Timer.onButtonClickListener {
     private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
@@ -72,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
         });
 
 
+
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.System.canWrite(this)) {
                 Toast.makeText(this, "onCreate: Already Granted", Toast.LENGTH_SHORT).show();
@@ -86,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
 
         setFrag(0); // 첫 프래그먼트 화면 지정
 
+
+
     }
 
 
@@ -96,13 +107,19 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+
             } else {
                 startService(new Intent(MainActivity.this, MyService.class));
+
+
+
             }
         } else {
             startService(new Intent(MainActivity.this, MyService.class));
+
         }
     }
+    
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -153,12 +170,24 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
     public void onButtonClick(int Button) {
         if (Button == 1) {
             if (!isServiceRunningCheck()) {
-                MyService.mHandler.removeMessages(0);
+                /*MyService.mHandler.removeMessages(0);
                 MyService.widFlag = 1;
+                MyService.mView.getBackground();
                 stopService(new Intent(MainActivity.this, MyService.class));
+                checkPermission();
+                MyService.widFlag = 0;*/
+                MyService.ori_min=Frag1_Timer.minute;
+                MyService.ori_sec=Frag1_Timer.second;
+
+                MyService.min=Frag1_Timer.minute;
+                MyService.sec=Frag1_Timer.second;
+
+                checkPermission();
+                MyService.widFlag = 0;
+            }else {
+                checkPermission();
+                MyService.widFlag = 0;
             }
-            checkPermission();
-            MyService.widFlag = 0;
             //MyService.widFlag=0;
         } else if (Button == 2) {
             MyService.widFlag = 1;
@@ -166,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
             MyService.mHandler.removeMessages(0);
             stopService(new Intent(MainActivity.this, MyService.class));
             setFrag(0);
+        }else if (Button == 3){
+            System.out.println("버튼 3");
+            startActivity(new Intent(this, PopupGuideActivity.class));
         }
     }
 
@@ -197,4 +229,5 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
         android.os.Process.killProcess(android.os.Process.myPid());
 
     }
+
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#eeeeee"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content">
+
+    <!-- 타이틀바 -->
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Notice"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:background="#176B30"
+            android:layout_width="match_parent"
+            android:layout_height="53dp" />
+
+    </LinearLayout>
+    <!-- //end 타이틀바 -->
+
+    <!-- Notice
+    <LinearLayout
+        android:padding="24dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <TextView
+            android:id="@+id/txtText"
+            android:textSize="15sp"
+            android:textColor="#000"
+            android:alpha="0.87"
+            android:gravity="center"
+            android:layout_marginBottom="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>-->
+    <!-- Notice -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Black"
+                android:text="1. +와 - 버튼을 이용하여 타이머를 설정합니다.\n\n
+2. START 버튼을 눌러 타이머 위젯을 실행 시킬 수 있습니다.\n\n
+3. 하단의 Setting 탭에서 위젯의 크기와 색상을 조절할 수 있습니다.\n\n
+4. Auto screen off 기능을 ON 시키면 타임아웃 후 앱에서 화면을 끄려 할 것입니다.\n\n
+5. 화면이 꺼진 이후 다시 핸드폰 화면을 켜는 순간 설정했던 타이머가 다시 작동합니다.\n\n
+6. Auto screen off 기능을 끄거나 STOP버튼을 누르면 원래의 화면 셋팅으로 되돌립니다.\n\n
+7. 위젯을 한번 클릭하면 타이머가 처음부터 다시 실행됩니다.\n\n
+8. 위젯을 길게 누르면 앱으로 이동합니다."
+                android:textSize="20dp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:background="#66bdbdbd"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <!-- 닫기 버튼 -->
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="확인"
+            android:onClick="mOnClose"
+            android:textSize="15sp"
+            android:textColor="#176B30"
+            android:padding="16dp"
+            android:gravity="center"
+            android:background="#00000000"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:id="@+id/mOnClose"/>
+    </LinearLayout>
+    <!--// 닫기 버튼 -->
+</LinearLayout>
