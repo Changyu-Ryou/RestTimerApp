@@ -78,3 +78,18 @@ One Touch reset Timer widget 구현 <br/>
   <br/>
   <br/>
   <br/>
+  
+ > ### ver 2.1 ( commit 2020-02-25 )  
+로고 아이콘 추가   "Icon made by Freepik from www.flaticon.com" <br/>
+출시를 위한 앱 설정 변경 <br/>
+코드 정리 <br/>
+
+<img src="https://user-images.githubusercontent.com/56837413/75168054-a171e500-5769-11ea-8d45-5946247db359.png" width="30%"></img>
+  
+  <br/>
+  <br/>
+  <br/>
+  
+  
+  
+
