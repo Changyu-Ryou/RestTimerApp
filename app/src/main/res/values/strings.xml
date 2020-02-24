@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">restTimer</string>
+    <string name="app_name">운동 휴식 타이머</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

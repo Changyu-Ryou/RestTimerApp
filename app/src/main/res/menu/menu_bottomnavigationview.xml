@@ -6,13 +6,6 @@
         android:enabled="true"
         android:icon="@drawable/ic_access_time_white_24dp"
         android:title="Timer"/>
-<!--
-    <item
-        android:id="@+id/action_saved"
-        android:enabled="true"
-        android:icon="@drawable/ic_save_black_24dp"
-        android:title="Saved"/>
-        -->
 
     <item
         android:id="@+id/action_setting"
