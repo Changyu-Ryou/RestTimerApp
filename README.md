@@ -34,9 +34,9 @@
 - [X] [🔨] 오버레이 롱 클릭, 더블 클릭시 앱으로 이동 (완료 ver 1.0)
 - [X] [🔨] 타이머 Fragment 내 google AdMob 배너 광고 삽입 (완료 ver 1.0)
 - [X] [🔨] 셋팅 Fragment 내 google AdMob 배너 광고 삽입 (완료 ver 1.0)
-- [ ] [🔨] 사용자 가이드 팝업 액티비티 추가
-- [ ] [🔨] 오버레이 뷰 디자인 
-- [ ] [🔨] 앱 전체적인 디자인 
+- [X] [🔨] 사용자 가이드 팝업 액티비티 추가 (완료 ver 2.0)
+- [X] [🔨] 오버레이 뷰 디자인 (완료 ver 2.0)
+- [X] [🔨] 앱 전체적인 디자인 (완료 ver 2.0)
 - [ ] [🔨] 로고 제작 
 - [ ] [🔓] Play Store 출시 
 
@@ -62,6 +62,18 @@ One Touch reset Timer widget 구현 <br/>
 
 <img src="https://user-images.githubusercontent.com/56837413/75116841-a1151380-56af-11ea-968d-695efb3528e0.gif" width="30%"></img>
  <img src="https://user-images.githubusercontent.com/56837413/75116844-a3776d80-56af-11ea-85b0-2cda415d6f71.gif" width="30%"></img> 
+  
+  <br/>
+  <br/>
+  <br/>
+
+> ### ver 2.0 ( commit 2020-02-24 )  
+사용 가이드 추가<br/>
+메인 뷰 디자인<br/>
+오버레이 위젯 디자인<br/>
+
+<img src="https://user-images.githubusercontent.com/56837413/75151184-652e8c80-5749-11ea-930d-56b2d8f1fb18.jpg" width="30%"></img>
+<img src="https://user-images.githubusercontent.com/56837413/75151186-665fb980-5749-11ea-956e-69697d85a269.jpg" width="30%"></img> 
   
   <br/>
   <br/>
