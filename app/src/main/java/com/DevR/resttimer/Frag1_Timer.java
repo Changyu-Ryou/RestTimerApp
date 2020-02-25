@@ -27,8 +27,8 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
     private AdView mAdView;
     private View view;
     private onButtonClickListener mListener;
-    TextView min;
-    TextView sec;
+    static TextView min;
+    static TextView sec;
 
     public void setOnButtonClickListener(onButtonClickListener listener) {
         mListener = listener;

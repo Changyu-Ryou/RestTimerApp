@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
     private long backPressedTime = 0;           //두번누르면 종료시키기 위한 변수
     private long btnPressTime = 0;        //더블클릭 확인용 변수
 
+    private static final String STATE_CHECKER = "CHECKER_VALUE";      //체커 값
+    private static final String WIDGET_FLAG = "WIDGET_VALUE";       //위젯 플래그 값
 
     static Activity activity;
     static int min = 0;
@@ -158,17 +160,32 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
         return false;
     }
 
+    //toast 중복 방지
+    private static Toast sToast;
+    public static void showToast(Context context, String message) {
+        if (sToast == null) {
+            sToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        } else {
+            sToast.setText(message);
+        }
+        sToast.show();
+    }
+
+
+
 
     @Override
     public void onButtonClick(int Button) {
         if (Button == 1) {
+            if(Frag1_Timer.minute==0&&Frag1_Timer.second==0){
+                showToast(this,"Time Setting Error\nplease re-check time setting");
+
+                //Toast.makeText(getApplicationContext(), "Time Setting Error\nplease re-check time setting", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (!isServiceRunningCheck()) {
-                /*MyService.mHandler.removeMessages(0);
-                MyService.widFlag = 1;
-                MyService.mView.getBackground();
-                stopService(new Intent(MainActivity.this, MyService.class));
-                checkPermission();
-                MyService.widFlag = 0;*/
+
                 MyService.ori_min = Frag1_Timer.minute;
                 MyService.ori_sec = Frag1_Timer.second;
 
@@ -189,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
             stopService(new Intent(MainActivity.this, MyService.class));
             setFrag(0);
         } else if (Button == 3) {
-            System.out.println("버튼 3");
             startActivity(new Intent(this, PopupGuideActivity.class));
         }
     }
@@ -222,8 +238,6 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
             moveTaskToBack(true);
             finish();
             android.os.Process.killProcess(android.os.Process.myPid());
-
-
 
     }
 

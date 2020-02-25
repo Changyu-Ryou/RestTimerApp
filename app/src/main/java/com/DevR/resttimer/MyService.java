@@ -128,7 +128,6 @@ public class MyService extends Service {
         screenCheck = 0;
         mHandler.sendEmptyMessage(0);
 
-
     }
 
 
@@ -185,6 +184,7 @@ public class MyService extends Service {
                 if (min <= 0) {
                     mView.setLayoutParams(new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     mtime.setText("Time Out\nGo back to work!!!");
+                    showToast(context,"Time Out!\nPlease, Go back to work!");
                     //mView.getBackground();
                     mView.setBackground(mView.getBackground());
 
@@ -192,8 +192,10 @@ public class MyService extends Service {
 
                     //MainActivity.wl.acquire();
                     //MainActivity.wl.release();
-                    if (screenFlag == 0)
+                    if (screenFlag == 0) {
+
                         setScreenOffTimeOut();
+                    }
                     mHandler.removeMessages(0);
 
                     //return;
@@ -222,6 +224,17 @@ public class MyService extends Service {
         }
     };
 
+    //toast 중복 방지
+    private static Toast sToast;
+    public static void showToast(Context context, String message) {
+        if (sToast == null) {
+            sToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        } else {
+            sToast.setText(message);
+        }
+        sToast.show();
+    }
+
 
     static Handler mScreenHandler = new Handler() {                  //화면 off시 screen on check 핸들러
         public void handleMessage(Message msg) {
@@ -244,7 +257,7 @@ public class MyService extends Service {
             Toast.makeText(MyService.this, "Openning Rest Timer\nPlease, Wait a seconds",
                     Toast.LENGTH_SHORT).show();
             restoreScreenOffTimeOut();
-            Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.resttimer");
+            Intent intent = getPackageManager().getLaunchIntentForPackage("com.DevR.resttimer");
 
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
