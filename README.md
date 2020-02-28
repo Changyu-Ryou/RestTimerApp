@@ -37,8 +37,8 @@
 - [X] [🔨] 사용자 가이드 팝업 액티비티 추가 (완료 ver 2.0)
 - [X] [🔨] 오버레이 뷰 디자인 (완료 ver 2.0)
 - [X] [🔨] 앱 전체적인 디자인 (완료 ver 2.0)
-- [ ] [🔨] 로고 제작 
-- [ ] [🔓] Play Store 출시 
+- [x] [🔨] 로고 제작 
+- [x] [🔓] Play Store 출시 
 
   <br/> <br/>
   
@@ -82,10 +82,21 @@ One Touch reset Timer widget 구현 <br/>
  > ### ver 2.1 ( commit 2020-02-25 )  
 로고 아이콘 추가   "Icon made by Freepik from www.flaticon.com" <br/>
 출시를 위한 앱 설정 변경 <br/>
-코드 정리 <br/>
+코드 정리 <br/>  <br/>
 
+> 로고  <br/>
 <img src="https://user-images.githubusercontent.com/56837413/75168054-a171e500-5769-11ea-8d45-5946247db359.png" width="30%"></img>
-  
+<br/>  <br/>
+
+
+> 이미지  <br/>
+<img src="https://user-images.githubusercontent.com/56837413/75511254-f72be300-5a30-11ea-918c-4bb7dbdb07e0.png" width="91%"></img>
+<img src="https://user-images.githubusercontent.com/56837413/75511249-f3985c00-5a30-11ea-868c-953fac3acbfd.png" width="30%"></img>
+<img src="https://user-images.githubusercontent.com/56837413/75511251-f5621f80-5a30-11ea-87fd-e4d01cee777c.png" width="30%"></img>
+<img src="https://user-images.githubusercontent.com/56837413/75511252-f6934c80-5a30-11ea-8f85-429b8f79a507.png" width="30%"></img>
+
+
+
   <br/>
   <br/>
   <br/>
