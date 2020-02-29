@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -107,11 +108,11 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
 
             } else {
                 startService(new Intent(MainActivity.this, MyService.class));
-
+                MyService.startWidget(this);
             }
         } else {
             startService(new Intent(MainActivity.this, MyService.class));
-
+            MyService.startWidget(this);
         }
     }
 
@@ -202,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
         } else if (Button == 2) {
             MyService.widFlag = 1;
             MyService.restoreScreenOffTimeOut();
-            MyService.mHandler.removeMessages(0);
+            MyService.removeHandler();
+
             stopService(new Intent(MainActivity.this, MyService.class));
             setFrag(0);
         } else if (Button == 3) {
@@ -225,7 +227,12 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MyService.widFlag = 1;
+        MyService.restoreScreenOffTimeOut();
+        MyService.removeHandler();
 
+        stopService(new Intent(MainActivity.this, MyService.class));
+        setFrag(0);
 
             int setting = 200;
             if (isLaunchingService(this)) {
@@ -237,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
 
             moveTaskToBack(true);
             finish();
+            //stopService(new Intent(MainActivity.this, MyService.class));
             android.os.Process.killProcess(android.os.Process.myPid());
 
     }
@@ -248,6 +256,12 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
         long intervalTime = tempTime - backPressedTime;
 
         if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            MyService.widFlag = 1;
+            MyService.restoreScreenOffTimeOut();
+            MyService.removeHandler();
+
+            stopService(new Intent(MainActivity.this, MyService.class));
+            setFrag(0);
 
             Toast.makeText(MainActivity.this, "종료", Toast.LENGTH_SHORT).show();
             moveTaskToBack(true);
@@ -255,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
             android.os.Process.killProcess(android.os.Process.myPid());
             super.onBackPressed();
         } else {
+
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "한번 더 누르시면 앱이 종료됩니다.\n위젯 이용을 원하시면 홈버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
         }
@@ -262,6 +277,39 @@ public class MainActivity extends AppCompatActivity implements Frag1_Timer.onBut
 
     }
 
+    public void btn1(View view) {
+        if(Frag1_Timer.minute==0&&Frag1_Timer.second==0){
+            showToast(this,"Time Setting Error\nplease re-check time setting");
 
+            //Toast.makeText(getApplicationContext(), "Time Setting Error\nplease re-check time setting", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isServiceRunningCheck()) {
+            MyService.stopWidget();
+            MyService.ori_min = Frag1_Timer.minute;
+            MyService.ori_sec = Frag1_Timer.second;
+
+            MyService.min = Frag1_Timer.minute;
+            MyService.sec = Frag1_Timer.second;
+
+            checkPermission();
+            MyService.widFlag = 0;
+        } else {
+            checkPermission();
+            MyService.widFlag = 0;
+        }
+
+    }
+
+    public void btn2(View view) {
+        MyService.widFlag = 1;
+        MyService.restoreScreenOffTimeOut();
+        MyService.removeHandler();
+
+        stopService(new Intent(MainActivity.this, MyService.class));
+        setFrag(0);
+
+    }
 
 }

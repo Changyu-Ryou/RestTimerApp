@@ -59,6 +59,8 @@ public class MyService extends Service {
     public static int mSystemScreenOffTimeOut;             //원래 설정값
 
 
+    public static final MyHandler mHandler = new MyHandler();       //핸들러
+
     private static Context context;
     static int screenCheck = 3;//위젯 백그라운드 작동 ( 0=실행 , 1=중지, 초기설정 = 3 )
 
@@ -128,6 +130,8 @@ public class MyService extends Service {
         screenCheck = 0;
         mHandler.sendEmptyMessage(0);
 
+        mView.setLayoutParams(new WindowManager.LayoutParams(mtime.getWidth() + 5, mtime.getHeight()));
+
     }
 
 
@@ -158,6 +162,97 @@ public class MyService extends Service {
             System.out.println("restoreScreenOffTimeOut() 오류");
         }
     }
+
+
+    public static void removeHandler(){
+        mHandler.removeMessages(0);
+    }
+
+    public static void stopWidget() {
+        widFlag = 1;
+        mHandler.removeMessages(0);
+        mScreenHandler.removeMessages(0);
+    }
+
+
+
+    private static class MyHandler extends Handler {
+        public MyHandler() {
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (widFlag == 1) {
+                //stopSelf()
+                return;
+                //mHandler.removeMessages(0);         //핸들러 종료
+            }
+            restoreScreenOffTimeOut();
+            String mins = "";
+            String secs = "";
+
+            if (min < 10) {
+                mins = "0" + min;
+            } else
+                mins = min + "";
+            if (sec < 10) {
+                secs = "0" + sec;
+            } else
+                secs = sec + "";
+
+            String timeset = mins + " : " + secs;
+            mtime.setText(timeset);
+            mView.setLayoutParams(new WindowManager.LayoutParams(mtime.getWidth() + 5, mtime.getHeight()));
+
+            if (sec <= 0) {
+                if (min <= 0) {
+                    //////////////mView.setLayoutParams(new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    mtime.setText("Time Out\nGo back to work!!!");
+                    showToast(context,"Time Out!\nPlease, Go back to work!");
+                    //mView.getBackground();
+                    mView.setBackground(mView.getBackground());
+                    mView.setLayoutParams(new WindowManager.LayoutParams(mtime.getWidth() + 5, mtime.getHeight()));
+                    System.out.println("Time out");
+
+                    //MainActivity.wl.acquire();
+                    //MainActivity.wl.release();
+                    if (screenFlag == 0) {
+
+                        setScreenOffTimeOut();
+                    }
+                    mHandler.removeMessages(0);
+
+                    //return;
+                    //종료 시간!
+                } else {
+                    min--;
+                    sec = 59;
+                }
+            } else {
+                sec--;
+            }
+
+            if (!checkScreen(context)) {
+                min = ori_min;
+                sec = ori_sec;
+                mScreenHandler.sendEmptyMessage(0);
+
+            } else {
+                // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
+                mHandler.sendEmptyMessageDelayed(0, 1000);
+            }
+            System.out.println("위젯 스레드 작동중");
+
+        }
+    }
+
+
+
+
+
+
+/*
+
 
     static Handler mHandler = new Handler() {                   //타이머 핸들러
         public void handleMessage(Message msg) {
@@ -223,6 +318,9 @@ public class MyService extends Service {
 
         }
     };
+*/
+
+
 
     //toast 중복 방지
     private static Toast sToast;
@@ -235,6 +333,27 @@ public class MyService extends Service {
         sToast.show();
     }
 
+    private static final MHandler mScreenHandler = new MHandler();
+
+    private static class MHandler extends Handler {
+        public MHandler() {
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (checkScreen(context)) {
+                System.out.println("screen check1");
+                mHandler.sendEmptyMessage(0);
+                restoreScreenOffTimeOut();
+            } else {
+                System.out.println("screen check2");
+                mScreenHandler.sendEmptyMessageDelayed(0, 300);
+            }
+        }
+    }
+
+
+    /*
 
     static Handler mScreenHandler = new Handler() {                  //화면 off시 screen on check 핸들러
         public void handleMessage(Message msg) {
@@ -249,7 +368,7 @@ public class MyService extends Service {
 
         }
     };
-
+*/
 
     private View.OnLongClickListener mViewLongClickListener = new View.OnLongClickListener() {
         @Override
@@ -266,6 +385,7 @@ public class MyService extends Service {
         }
 
     };
+
 
 
     //위젯 더블클릭시 메인 액티비티 실행
@@ -303,6 +423,19 @@ public class MyService extends Service {
         }
     };
 
+
+    public static void startWidget(Context context) {
+        widFlag = 0;
+
+        MainContext = context;
+        try {
+            mHandler.sendEmptyMessageDelayed(0, 1000);
+            //mHandler.sendEmptyMessageDelayed(0, 1000);
+        } catch (Exception e) {
+            System.out.println("waitLoading() 오류");
+        }
+
+    }
 
         //위젯 롱터치시 메인 액티비티 실행
         private View.OnTouchListener mViewTouchListener = new View.OnTouchListener() {

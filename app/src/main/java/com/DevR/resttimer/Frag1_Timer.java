@@ -67,7 +67,7 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
 
         min = (TextView) View.findViewById(R.id.min);
         sec = (TextView) View.findViewById(R.id.sec);
-
+/*
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +82,7 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
 
             }
         });
-
+*/
         info.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -199,6 +199,9 @@ public class Frag1_Timer extends Fragment // Fragment 클래스를 상속받아�
             add=a+"";
         return add;
     }
+
+
+
 
 
 }
